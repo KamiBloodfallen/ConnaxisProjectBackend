@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Interes extends Model
 {
     use HasFactory;
+    protected $table = 'interes';
+    protected $forenKey = "IdUsu";
+    protected $fillable = [
+        'Familia', 'Deportes', 'Comida', 'Turismo', 'Baile', 'Fitness',
+    ];
 }
