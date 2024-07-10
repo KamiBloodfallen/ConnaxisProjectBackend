@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CorsMiddleware;
+use App\Http\Controllers\Api\V1\AuthController;
 
 Route::get('/',[App\Http\Controllers\HomeController::class,'index'])->name('index');
 
@@ -15,5 +16,9 @@ Route::post('/data2',[App\Http\Controllers\HomeController::class,'recoverData2']
 
 /*
 Pruebas de http
-*/
+
 Route::get('/consulta',[App\Http\Controllers\HomeController::class,'pruebaConsulta'])->middleware(CorsMiddleware::class);
+*/
+
+Route::post('/login',[App\Http\Controllers\Api\V1\AuthController::class,'login']);
+Route::post('/logout',[App\Http\Controllers\Api\V1\AuthController::class,'logout']);
