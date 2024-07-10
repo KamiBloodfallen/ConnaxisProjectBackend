@@ -12,7 +12,7 @@ class GeneradorContenido extends Authenticatable
     use HasFactory, Notifiable, HasApiTokens;
 
     protected $table = 'generador_contenidos';
-
+    protected $primaryKey = 'IdUsuario';
     /**
      * The attributes that are mass assignable.
      *
@@ -28,8 +28,9 @@ class GeneradorContenido extends Authenticatable
         'Sexo',
         'Contraseña',
         'ResidenciaDepartamento',
+        'Nombre_perfil',
     ];
-
+    public $timestamps = true;
     /**
      * The attributes that should be hidden for serialization.
      *

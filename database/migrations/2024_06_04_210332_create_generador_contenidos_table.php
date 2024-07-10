@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use PhpParser\Node\NullableType;
 
 return new class extends Migration
 {
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->String(column: 'Sexo');
             $table->String(column: 'Contraseña');
             $table->String(column: 'ResidenciaDepartamento');
-            $table->String(column: 'Nombre_perfil' );
+            $table->String(column: 'Nombre_perfil')->nullable();
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();

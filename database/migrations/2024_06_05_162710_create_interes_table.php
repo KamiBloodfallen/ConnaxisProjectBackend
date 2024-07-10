@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id(column: 'IdUsu');
             $table->string(column: 'Intereses_Usuario');
             $table->timestamps();
-
+            
             $table->foreign('IdUsu')->references('IdUsuario')->on('generador_contenidos')
-            ->onDelete('NO ACTION')
-            ->onUpdate('NO ACTION');
+                  ->onDelete('NO ACTION')
+                  ->onUpdate('NO ACTION');
         });
      
     }
