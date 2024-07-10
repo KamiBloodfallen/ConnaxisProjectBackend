@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('generador_contenidos', function (Blueprint $table) {
-            $table->id(column: 'IdUsuario');
+            $table->id(column:'IdUsuario');
             $table->String (column: 'Nombre');
             $table->String(column: 'Apellido');
             $table->integer(column: 'Celular');
@@ -22,6 +22,7 @@ return new class extends Migration
             $table->String(column: 'Sexo');
             $table->String(column: 'Contraseña');
             $table->String(column: 'ResidenciaDepartamento');
+            $table->String(column: 'Nombre_perfil' );
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();

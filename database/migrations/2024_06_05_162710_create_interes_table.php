@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('interes', function (Blueprint $table) {
-            $table->id(column: 'IdUsuario');
-            $table->boolean(column: 'Familia');
-            $table->boolean(column: 'Deportes');
-            $table->boolean(column: 'Comida');
-            $table->boolean(column: 'Turismo');
-            $table->boolean(column: 'Baile');
-            $table->boolean(column: 'Fitness');
+            $table->id(column: 'IdUsu');
+            $table->string(column: 'Intereses_Usuario');
             $table->timestamps();
+
+            $table->foreign('IdUsu')->references('IdUsuario')->on('generador_contenidos')
+            ->onDelete('NO ACTION')
+            ->onUpdate('NO ACTION');
         });
+     
     }
 
     /**
