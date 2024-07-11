@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date(column: 'FechaNacimiento');
             $table->String(column: 'Descripcion')->nullable();
             $table->String(column: 'Sexo');
-            $table->String(column: 'Contraseña');
+            $table->String(column: 'password');
             $table->String(column: 'ResidenciaDepartamento');
             $table->String(column: 'Nombre_perfil')->nullable();
             $table->rememberToken();

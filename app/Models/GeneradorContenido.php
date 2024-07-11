@@ -26,7 +26,7 @@ class GeneradorContenido extends Authenticatable
         'FechaNacimiento',
         'Descripcion',
         'Sexo',
-        'Contraseña',
+        'password',
         'ResidenciaDepartamento',
         'Nombre_perfil',
     ];
@@ -37,7 +37,7 @@ class GeneradorContenido extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'Contraseña',
+        'password',
         'remember_token',
     ];
 
@@ -58,7 +58,7 @@ class GeneradorContenido extends Authenticatable
      */
     public function setPasswordAttribute($value)
     {
-        $this->attributes['Contraseña'] = bcrypt($value);
+        $this->attributes['password'] = bcrypt($value);
     }
 
     /**
@@ -68,7 +68,7 @@ class GeneradorContenido extends Authenticatable
      */
     public function getAuthPassword()
     {
-        return $this->Contraseña;
+        return $this->password;
     }
 
     /**
