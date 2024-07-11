@@ -148,12 +148,7 @@ class Generador_contenidoController extends Controller
             
     $interes = new Interes();
     $interes->IdUsu = $request->input('IdUsu'); // Asume que recibes IdUsu desde el formulario o solicitud
-    $interes->Familia = $request->input('Familia');
-    $interes->Deportes = $request->input('Deportes');
-    $interes->Comida = $request->input('Comida');
-    $interes->Turismo = $request->input('Turismo');
-    $interes->Baile = $request->input('Baile');
-    $interes->Fitness = $request->input('Fitness');
+    $interes->Intereses_Usuario = $request->input('Intereses_Usuario');
 
     $interes->save();
 

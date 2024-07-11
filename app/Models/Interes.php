@@ -11,6 +11,6 @@ class Interes extends Model
     protected $table = 'interes';
     protected $forenKey = "IdUsu";
     protected $fillable = [
-        'Familia', 'Deportes', 'Comida', 'Turismo', 'Baile', 'Fitness',
+        'Intereses_Usuario'
     ];
 }
