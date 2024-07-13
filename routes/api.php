@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Generador_contenidoController;
+use App\Http\Middleware\CorsMiddleware;
+use App\Http\Controllers\Api\V1\AuthController;
 
 Route::get('/estudiante',[Generador_contenidoController::class,'prueba']);
 
@@ -40,3 +42,10 @@ Route::put('/estudiante',function(){
 Route::delete('/estudiante',function(){
     return 'borrando al estudiante';
 });
+
+
+//rutas del login
+
+Route::post('/login',[App\Http\Controllers\Api\V1\AuthController::class,'login']);
+
+Route::post('/logout',[App\Http\Controllers\Api\V1\AuthController::class,'logout']);
