@@ -42,7 +42,6 @@ class Generador_contenidoController extends Controller
             ];
             return response()->json($data, 200);
         } else {
-            $contraseñaHasheada = Hash::make($request->input('Contraseña'));
 
             // Crear el generador de contenido con la contraseña hasheada
             $generador = GeneradorContenido::create([
@@ -52,7 +51,7 @@ class Generador_contenidoController extends Controller
                 'CorreoElectronico' => $request->input('CorreoElectronico'),
                 'FechaNacimiento' => $request->input('FechaNacimiento'),
                 'Sexo' => $request->input('Sexo'),
-                'password' => $contraseñaHasheada, // Guardar la contraseña hasheada
+                'password' => $request->input('Contraseña'), //$contraseñaHasheada, // Guardar la contraseña hasheada
                 'ResidenciaDepartamento' => $request->input('ResidenciaDepartamento'),
             ]);
 
