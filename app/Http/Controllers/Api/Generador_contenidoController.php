@@ -52,7 +52,7 @@ class Generador_contenidoController extends Controller
                 'CorreoElectronico' => $request->input('CorreoElectronico'),
                 'FechaNacimiento' => $request->input('FechaNacimiento'),
                 'Sexo' => $request->input('Sexo'),
-                'Contraseña' => $contraseñaHasheada, // Guardar la contraseña hasheada
+                'password' => $contraseñaHasheada, // Guardar la contraseña hasheada
                 'ResidenciaDepartamento' => $request->input('ResidenciaDepartamento'),
             ]);
 

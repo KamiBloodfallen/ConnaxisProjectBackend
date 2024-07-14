@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Generador_contenidoController;
+use App\Http\Controllers\Api\RedesSocialesCotroller;
 
 Route::get('/estudiante',[Generador_contenidoController::class,'prueba']);
 
@@ -24,8 +25,14 @@ Route::patch('/generador/{id}/nombre-perfil', [Generador_ContenidoController::cl
 Route::put('/generador/{id}/descripcion', [Generador_contenidoController::class,'actualizarDescripcion']);
 
 
+//Registrar un generador_contenido
 
 Route::post('/registro',[Generador_contenidoController::class,'registrar']);
+
+//get UrlApi Instagram
+
+Route::get('/instagram',[RedesSocialesCotroller::class,'getUrlInstagram']);
+
 
 
 Route::get('/estudiante/{id}',function(){
