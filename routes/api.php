@@ -51,7 +51,7 @@ Route::delete('/estudiante',function(){
 });
 
 
-//rutas del login
+//Rutas de de autentificación
 
 Route::post('/login',[App\Http\Controllers\Api\V1\AuthController::class,'login']);
 

@@ -11,11 +11,12 @@ use App\Models\GeneradorContenido;
 
 class AuthController extends Controller
 {
+    //Funcion para autenticarse con las base de datos
     public function login(Request $request)
     {
         $credentials = $request->only('CorreoElectronico', 'password');
      
-        
+
       if (Auth::attempt(['CorreoElectronico' => $credentials['CorreoElectronico'], 'password' => $credentials['password']])) {
           $user = Auth::user();
           $token = $user->createToken('tokensesion')->plainTextToken;
@@ -32,6 +33,7 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
+     //Funcion para desloguearse (todavia no se usa)
     public function logout(Request $request)
     {
         
@@ -41,9 +43,13 @@ class AuthController extends Controller
     }
 
 
-    //antiguo login
+   
  
 }
+
+
+// Alternativa de login
+
 // $validated = $request->validate([
 //     'CorreoElectronico' => 'required|email',
 //     'password' => 'required',
