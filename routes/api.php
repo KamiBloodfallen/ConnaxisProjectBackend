@@ -35,6 +35,10 @@ Route::post('/registro',[Generador_contenidoController::class,'registrar']);
 
 Route::get('/instagram',[RedesSocialesCotroller::class,'getUrlInstagram']);
 
+//get token Instagram
+
+Route::get('/instagramToken',[RedesSocialesCotroller::class,'_getUserAccessToken']);
+
 
 
 Route::get('/estudiante/{id}',function(){

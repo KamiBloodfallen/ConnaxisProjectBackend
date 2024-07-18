@@ -21,6 +21,8 @@ return [
 
     'allowed_origins' => ['http://localhost:4200'],
 
+    //'allowed_origins' => ['https://labrador-harmless-totally.ngrok-free.app'],
+
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],

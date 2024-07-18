@@ -16,7 +16,7 @@ class VerificacionController extends Controller
         Mail::to($correoElectronico)->send(new VerificacionMailable);
 
         return response()->json([
-            'Mensaje' =>'Correo electronico enviado correctamente a:'+ $correoElectronico ,
+            'Mensaje' =>'Correo electronico enviado correctamente a:ok' ,
             'status' => 200
         ]);
 
