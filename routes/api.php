@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Generador_contenidoController;
 use App\Http\Middleware\CorsMiddleware;
-use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RedesSocialesCotroller;
 
 Route::get('/estudiante',[Generador_contenidoController::class,'prueba']);
@@ -55,8 +55,8 @@ Route::delete('/estudiante',function(){
 });
 
 
-//rutas del login
+//Rutas de de autentificación
 
-Route::post('/login',[App\Http\Controllers\Api\V1\AuthController::class,'login']);
+Route::post('/login',[App\Http\Controllers\Api\AuthController::class,'login']);
 
-Route::post('/logout',[App\Http\Controllers\Api\V1\AuthController::class,'logout']);
+Route::post('/logout',[App\Http\Controllers\Api\AuthController::class,'logout']);

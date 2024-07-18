@@ -14,12 +14,7 @@ Route::get('/profile',[App\Http\Controllers\ProfileController::class,'index'])->
 
 Route::post('/data2',[App\Http\Controllers\HomeController::class,'recoverData2'])->name('data2');
 
-/*
-Pruebas de http
 
-Route::get('/consulta',[App\Http\Controllers\HomeController::class,'pruebaConsulta'])->middleware(CorsMiddleware::class);
-*/
-
-
+// Ruta para los correos
 
 Route::get('/sendCorreo',[App\Http\Controllers\Correos\VerificacionController::class,'enviarCorreo']);

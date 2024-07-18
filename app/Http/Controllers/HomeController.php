@@ -257,13 +257,4 @@ class HomeController extends Controller
 // }
 
 
-function pruebaConsulta (){
-    $data = [
-        'name' => 'Beimar Alcocer',
-        'email' => 'negroxcaro@gmail.com',
-        'roles' => ['admin', 'editor']
-    ];
-
-    return response()->json($data);
-    }
 }

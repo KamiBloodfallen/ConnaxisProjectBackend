@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Request\V1\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +11,7 @@ use App\Models\GeneradorContenido;
 
 class AuthController extends Controller
 {
+    //Funcion para autenticarse con las base de datos
     public function login(Request $request)
     {
         $credentials = $request->only('CorreoElectronico', 'password');
@@ -33,18 +33,23 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
+     //Funcion para desloguearse (todavia no se usa)
     public function logout(Request $request)
     {
-        // Revoke the token that was used to authenticate the current request
+        
         $request->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'Ha cerrado sesión correctamente.'], 200);
     }
 
 
-    //antiguo login
+   
  
 }
+
+
+// Alternativa de login
+
 // $validated = $request->validate([
 //     'CorreoElectronico' => 'required|email',
 //     'password' => 'required',
