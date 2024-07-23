@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Youtube;
 
 class GeneradorContenido extends Authenticatable
 {
@@ -79,6 +80,10 @@ class GeneradorContenido extends Authenticatable
     public function getAuthIdentifierName()
     {
         return 'CorreoElectronico';
+    }
+    public function youtubes()
+    {
+        return $this->hasMany(Youtube::class, 'IdGeneradorContenido', 'IdUsuario');
     }
 }
 
