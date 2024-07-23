@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Generador_contenidoController;
 use App\Http\Middleware\CorsMiddleware;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RedesSocialesCotroller;
+use App\Http\Controllers\Api\YoutubeController;
 
 Route::get('/estudiante',[Generador_contenidoController::class,'prueba']);
 
@@ -57,6 +58,12 @@ Route::delete('/estudiante',function(){
 
 //Rutas de de autentificación
 
-Route::post('/login',[App\Http\Controllers\Api\AuthController::class,'login']);
+Route::post('/login',[AuthController::class,'login']);
 
-Route::post('/logout',[App\Http\Controllers\Api\AuthController::class,'logout']);
+Route::post('/logout',[AuthController::class,'logout']);
+
+//get UrlApi Youtube
+
+Route::get('/youtube', [YoutubeController::class, 'getUrlYoutube']);
+Route::post('/youtube-tokenYoutube', [YoutubeController::class, 'createTokenYoutube']);
+Route::post('/youtube-saveTokenYoutube', [YoutubeController::class, 'saveTokenYoutube']);
