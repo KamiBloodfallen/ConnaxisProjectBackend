@@ -37,7 +37,7 @@ Route::get('/instagram',[RedesSocialesCotroller::class,'getUrlInstagram']);
 
 //get token Instagram
 
-Route::get('/instagramToken',[RedesSocialesCotroller::class,'_getUserAccessToken']);
+Route::post('/instagramToken',[RedesSocialesCotroller::class,'registro']);
 
 
 
