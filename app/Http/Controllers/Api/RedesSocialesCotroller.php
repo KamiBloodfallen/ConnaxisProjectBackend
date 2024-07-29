@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\HomeController;
@@ -63,7 +64,7 @@ public function registro(Request $request) {
 
 
 	//$accessToken=$x;
-    //$idCuenta=17875084627980325;
+   // $idCuenta=17875084627980325;
 
     $usuario=$this->getUser($accessToken);
 		
@@ -74,8 +75,8 @@ public function registro(Request $request) {
     $datos = [
 		'IdGeneradorContenido' => $idUsuario,
 		'TokenAcces' => $accessToken,
-		'IdCuenta' => $idCuenta,
-		'TokenTime' => $fechaExpiracionFormateada,
+		'IdCuenta' => strval($idCuenta),
+		'TokenTime' => /*'2024-05-21'*/$fechaExpiracionFormateada,
 		'NombreCuenta' => $usuario['username'],
 		'ImgCuenta' => $profilePicture,
 		'CantPublicaciones' =>$usuario['media_count'],
@@ -94,7 +95,6 @@ public function registro(Request $request) {
 		'response'=>$confirmacion,
 		'status' => 404
 	],);
-	
 
 }
 
@@ -102,28 +102,38 @@ public function registro(Request $request) {
 private function registroBaseDatos($request){
 
 
-	$validatedData = $request->validate([
-		'IdGeneradorContenido' => 'required|exists:generador_contenidos,IdUsuario',
-		'TokenAcces' => 'nullable|integer',
-		'IdCuenta' => 'required|integer',
-		'TokenTime' => 'nullable|date',
-		'NombreCuenta' => 'nullable|string',
-		'ImgCuenta' => 'nullable|string',
-		'CantPublicaciones' => 'nullable|integer',
-		'CantSeguidores' => 'nullable|integer',
-		'CantLikes' => 'nullable|integer',
-		'Engagement' => 'nullable|integer'
-	]);
+	$validator = Validator::make($request, [
+        'IdGeneradorContenido' => 'required|exists:generador_contenidos,IdUsuario',
+        'TokenAcces' => 'nullable|string',
+        'IdCuenta' => 'required|string',
+        'TokenTime' => 'nullable|date',
+        'NombreCuenta' => 'nullable|string',
+        'ImgCuenta' => 'nullable|string',
+        'CantPublicaciones' => 'nullable|integer',
+        'CantSeguidores' => 'nullable|integer',
+        'CantLikes' => 'nullable|integer',
+        'Engagement' => 'nullable|integer'
+    ]);
 
-	// Crear un nuevo registro en la tabla 'instagrams'
-	$instagram = Instagram::create($validatedData);
+    if ($validator->fails()) {
+        return response()->json([
+            'message' => 'Error de validación',
+            'errors' => $validator->errors(),
+            'status' => 422
+        ], 422);
+    }
 
-	// Retornar una respuesta con el nuevo registro creado
-	return response()->json([
-		'message' => 'Datos insertados exitosamente',
-		'data' => $instagram,
-		'status' => 201
-	], 201);
+    $validatedData = $validator->validated();
+
+    // Crear un nuevo registro en la tabla 'instagrams'
+    $instagram = Instagram::create($validatedData);
+
+    // Retornar una respuesta con el nuevo registro creado
+    return response()->json([
+        'message' => 'Datos insertados exitosamente',
+        'data' => $instagram,
+        'status' => 201
+    ], 201);
 
 }
 

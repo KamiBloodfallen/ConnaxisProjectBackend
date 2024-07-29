@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('instagrams', function (Blueprint $table) {
             $table->id('IdInstagram');
             $table->unsignedBigInteger('IdGeneradorContenido');
-            $table->integer('TokenAcces')->nullable();
-            $table->integer('IdCuenta');
+            $table->string('TokenAcces')->nullable();
+            $table->string('IdCuenta');
             $table->date('TokenTime')->nullable();
             $table->string('NombreCuenta')->nullable();
             $table->string('ImgCuenta')->nullable();
