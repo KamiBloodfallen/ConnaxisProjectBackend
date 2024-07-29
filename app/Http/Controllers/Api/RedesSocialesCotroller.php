@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\HomeController;
+use App\Models\Instagram; 
 
 class RedesSocialesCotroller extends Controller
 {
+
     private $_appId = '1368132997230381';
 	private $_appSecret = 'd83873a62a906dfce475e84130ad1632';
 	private $_redirectUrl = 'https://prismatic-horse-124283.netlify.app/';
@@ -22,10 +25,7 @@ class RedesSocialesCotroller extends Controller
 	public $hasUserAccessToken = false;
 	public $authorizationUrl = '';
 	public $userId ='';
-
-
-
-
+     
 public function getUrlInstagram(){
 	$this->_setAuthorizationUrl();
     $data = [
@@ -47,13 +47,142 @@ private function _setAuthorizationUrl() {
 	$this->authorizationUrl = $this->_apiBaseUrl . 'oauth/authorize?' . http_build_query( $getVars );
 }
 
+public function registro(Request $request) {
+    
+	$codigo=$request->input('code');
+	$idUsuario=$request->input('IdUsuario');
+    $response=$this->_getUserAccessToken($codigo) ;
+    $responseToken=$this->_getLongLivedUserAccessToken($response) ;
+	//$x="IGQWROalF2WDdZAUEZAPbVpLNm8xbWUxcV9SalZA2VE93M01NVDN6Ym0ybU5JaXBlOHZAlSGUyNndvdDh2OFlyeDhjSTJjZAzQ4dzREZA0Vua080VGo4U25iNldxSi1pUTYwR3I0VmZAKYVZAmRS1RdwZDZD";
+	$idCuenta= $response['user_id'];
+	$accessToken=$responseToken['access_token'];
+	$tiempoToken=$responseToken['expires_in'];
+	$dias = $tiempoToken / (60 * 60 * 24);
+	$fechaActual = new \DateTime();
+	$fechaExpiracion = $fechaActual->add(new \DateInterval('P' . round($dias) . 'D'));
+	$fechaExpiracionFormateada = $fechaExpiracion->format('Y-m-d');
 
 
+	//$accessToken=$x;
+   // $idCuenta=17875084627980325;
 
+    $usuario=$this->getUser($accessToken);
+		
+	$userMedia=$this->getMedia($accessToken); 
+	$profilePicture = isset($userMedia['data'][0]['media_url']) ? $userMedia['data'][0]['media_url'] : null;
+    $cantFlowers=$this->_getFollowersCount($idCuenta, $accessToken);
+	
+    $datos = [
+		'IdGeneradorContenido' => $idUsuario,
+		'TokenAcces' => $accessToken,
+		'IdCuenta' => strval($idCuenta),
+		'TokenTime' => /*'2024-05-21'*/$fechaExpiracionFormateada,
+		'NombreCuenta' => $usuario['username'],
+		'ImgCuenta' => $profilePicture,
+		'CantPublicaciones' =>$usuario['media_count'],
+		'CantSeguidores' => $cantFlowers,
+		'CantLikes' => 120,// valor por defecto que se debe de cambiar
+		'Engagement' => 12,
+	];
+     
+    $confirmacion= $this->registroBaseDatos($datos);
+
+    return response()->json([
+		'username' => $usuario['username'],
+        'media_count' => $usuario['media_count'],
+        'followers_count' => $cantFlowers,
+        'profile_picture' => $profilePicture,
+		'response'=>$confirmacion,
+		'status' => 404
+	],);
+
+}
+
+//registrar en la base de datos
+private function registroBaseDatos($request){
+
+
+	$validator = Validator::make($request, [
+        'IdGeneradorContenido' => 'required|exists:generador_contenidos,IdUsuario',
+        'TokenAcces' => 'nullable|string',
+        'IdCuenta' => 'required|string',
+        'TokenTime' => 'nullable|date',
+        'NombreCuenta' => 'nullable|string',
+        'ImgCuenta' => 'nullable|string',
+        'CantPublicaciones' => 'nullable|integer',
+        'CantSeguidores' => 'nullable|integer',
+        'CantLikes' => 'nullable|integer',
+        'Engagement' => 'nullable|integer'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'message' => 'Error de validación',
+            'errors' => $validator->errors(),
+            'status' => 422
+        ], 422);
+    }
+
+    $validatedData = $validator->validated();
+
+    // Crear un nuevo registro en la tabla 'instagrams'
+    $instagram = Instagram::create($validatedData);
+
+    // Retornar una respuesta con el nuevo registro creado
+    return response()->json([
+        'message' => 'Datos insertados exitosamente',
+        'data' => $instagram,
+        'status' => 201
+    ], 201);
+
+}
+
+//obtener id y nombre del usuario
+private function getUser($token) {
+	$params = array(
+		'endpoint_url' => $this->_graphBaseUrl . 'me',
+		'type' => 'GET',
+		'url_params' => array(
+			'fields' => 'id,username,media_count,account_type',
+			'access_token' => $token,
+		)
+	);
+
+	$response = $this->_makeApiCall( $params );
+	return $response;
+}
+//obtener contenido del usuario
+public function getMedia( $token ) {
+	$params = array(
+		'endpoint_url' => $this->_graphBaseUrl . 'me/media',
+        'type' => 'GET',
+        'url_params' => array(
+            'fields' => 'id,caption,media_type,media_url,permalink,thumbnail_url,timestamp',
+            'access_token' => $token
+	    )
+	);
+	$response = $this->_makeApiCall( $params );
+	return $response;
+}
+
+// obtener la cantidad de seguidores
+private function _getFollowersCount($userId, $token) {
+    $params = array(
+        'endpoint_url' => $this->_graphBaseUrl . $userId,
+        'type' => 'GET',
+        'url_params' => array(
+            'fields' => 'followers_count',
+            'access_token' => $token
+        )
+    );
+
+    $response = $this->_makeApiCall($params);
+    return isset($response['followers_count']) ? $response['followers_count'] : 185;
+	
+}
 
 //obtener el token para cambiarlo por el id del usuario
-public function _getUserAccessToken(Request $request) {
-	$this->_getCode = $request->input('code');
+public function _getUserAccessToken($codigo) {
 	$params = array(
 		'endpoint_url' => $this->_apiBaseUrl . 'oauth/access_token',
 		'type' => 'POST',
@@ -62,17 +191,17 @@ public function _getUserAccessToken(Request $request) {
 			'app_secret' => $this->_appSecret,
 			'grant_type' => 'authorization_code',
 			'redirect_uri' => $this->_redirectUrl,
-			'code' => $this->_getCode
+			'code' => $codigo,
 		)
 	);
 
 	$response = $this->_makeApiCall( $params );
-    $this->_userAccessToken = $response['access_token'];
+   // $this->_userAccessToken = $response['access_token'];
 
-	$res= $this->_getLongLivedUserAccessToken($response);
-    $this->_userAccessTokenExpires = $res['access_token'];
+	//$res= $this->_getLongLivedUserAccessToken($response);
+   // $this->_userAccessTokenExpires = $res['access_token'];
 	
-	return $res;
+	return $response;
 	//return $params;
 }
 

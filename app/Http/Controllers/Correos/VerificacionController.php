@@ -12,11 +12,12 @@ class VerificacionController extends Controller
     public function EnviarCorreo( Request $request)
     {
         $correoElectronico=$request->input('CorreoElectronico');
+        $IdUsuario=$request->input('IdUsuario');
         
-        Mail::to($correoElectronico)->send(new VerificacionMailable);
+        Mail::to($correoElectronico)->send(new VerificacionMailable($IdUsuario));
 
         return response()->json([
-            'Mensaje' =>'Correo electronico enviado correctamente a:ok' ,
+            'Mensaje' =>$IdUsuario,
             'status' => 200
         ]);
 

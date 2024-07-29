@@ -76,10 +76,10 @@
                 <p>Tu cuenta ha sido registrada exitosamente.</p>
                 <p>Gracias por registrarte en nuestro sitio. Estamos emocionados de tenerte a bordo. Por favor, haz clic en el siguiente botón para verificar tu correo electrónico y completar el proceso de registro.</p>
                 <p style="text-align: center;">
-                    <a href="#" class="button">Verificar Correo Electrónico</a>
+                    <a href="https://creadores-contenido-front.stage.cnxbol.com/completeRegistration?IdUsuario={{ $idUsuario }}" class="button">Verificar Correo Electrónico</a>
                 </p>
                 <p>Si no puedes hacer clic en el botón, copia y pega el siguiente enlace en tu navegador:</p>
-                <p style="word-break: break-all;">https://tu-dominio.com/verificar?token=your_verification_token</p>
+                <p style="word-break: break-all;">https://creadores-contenido-front.stage.cnxbol.com/completeRegistration?IdUsuario={{ $idUsuario }}</p>
                 <p>Saludos,<br>El Equipo de Connaxis</p>
             </td>
         </tr>

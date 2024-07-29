@@ -14,13 +14,13 @@ use Illuminate\Queue\SerializesModels;
 class VerificacionMailable extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $idUsu;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($idUsuario)
     {
-        //
+        $this->idUsu = (string) $idUsuario;
     }
 
     /**
@@ -41,6 +41,7 @@ class VerificacionMailable extends Mailable
     {
         return new Content(
             view: 'emails.verificacion-registro',
+            with: ['idUsuario' => $this->idUsu]
         );
     }
 
