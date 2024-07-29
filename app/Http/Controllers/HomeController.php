@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Http;
 
+use Illuminate\Support\Facades\Log;
+
 class HomeController extends Controller
 {
     private $_appId = '1368132997230381';
@@ -46,7 +48,7 @@ class HomeController extends Controller
 
         // Es la URL a la que la API redirecciona al terminar el flujo de autorización.
         // Esta URL debe coincidir exactamente con uno de los URI de redireccionamiento autorizados para el cliente OAuth 2.0, que configuró en la página Credenciales de la consola de la API.
-         $redirectUrl = 'https://7819-189-28-66-122.ngrok-free.app';
+         $redirectUrl = 'https://83a2-189-28-66-61.ngrok-free.app';
         //$redirectUrl = 'https://agencia-de-creadores.stage.cnxbol.com/';
 
         // Crear y configurar al nuevo cliente
@@ -75,6 +77,7 @@ class HomeController extends Controller
             // Intercambio de codigo de autorizacion por el token de acceso
             //$token = $client->fetchAccessTokenWithAuthCode($request->input('code'), Session::get('code_verifier'));
             $codigo = $request->input('code');
+            Log::info("codigo bueno: " . $codigo);
             $token = $client->fetchAccessTokenWithAuthCode($codigo);
             $client->setAccessToken($token);
             Session::put('google_oauth_token', $token);
@@ -143,16 +146,18 @@ class HomeController extends Controller
         //       'startDate' => '2023-09-01'
         //   ];
 
-         $response = $service->channels->listChannels('snippet',$queryParams);
+       //  $response = $service->channels->listChannels('snippet',$queryParams);
+       $response = $service->channels->listChannels('snippet',$queryParams);
           
           //dd($response->items[0]->snippet);
-          //dd($response);
+          dd($response);
           
           //Obtener el id del canal
           //dd($response->items[0]->id);
           //obtener el nombre del canal
           //dd($response->items[0]->snippet->customUrl); 
 
+          /*
            if (!empty($response->items[0]->id)) {
 
              $id = $response->items[0]->id;
@@ -162,7 +167,7 @@ class HomeController extends Controller
          }else{
              return redirect('/');
          }
-        
+        */
         //dd($response);
           
 
@@ -171,13 +176,13 @@ class HomeController extends Controller
 
     //METODO QUE VERIFICA SI SE TIENE EL TOKEN OUTH2.0 Y EL ID DEL CANAL EN LA SESSION DE LARAVEL PARA REALIZAR UNA CONSULTA DE DATOS    
         //EJEMPLO 2 METRICAS
-          $client =new Client ();
-          $service = new YouTubeAnalytics($client);
+          //$client =new Client ();
+          //$service = new YouTubeAnalytics($client);
         //EJEMPLO 2 METRICAS
 
         //EJEMEPLO 3 SUBSCRIPTORES
-        //  $client = new Client ();
-        //  $service = new Youtube($client);
+          $client = new Client ();
+         $service = new Youtube($client);
         //EJEMPLO 3 SUBSCRIPTORES
 
         //$client = new Google_Client();

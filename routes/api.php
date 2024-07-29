@@ -67,3 +67,9 @@ Route::post('/logout',[AuthController::class,'logout']);
 Route::get('/youtube', [YoutubeController::class, 'getUrlYoutube']);
 Route::post('/youtube-tokenYoutube', [YoutubeController::class, 'createTokenYoutube']);
 Route::post('/youtube-saveTokenYoutube', [YoutubeController::class, 'saveTokenYoutube']);
+Route::post('/youtube-cardData',[YoutubeController::class, 'cardData']);
+Route::post('/youtube-cardData2',[YoutubeController::Class, 'cardData2']);
+
+/*
+Route::post('/youtube-setIdAccount', [YoutubeController::class, 'setIdAccount']);
+*/

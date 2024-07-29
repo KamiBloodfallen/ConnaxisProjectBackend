@@ -20,7 +20,7 @@ class AuthController extends Controller
       if (Auth::attempt(['CorreoElectronico' => $credentials['CorreoElectronico'], 'password' => $credentials['password']])) {
           $user = Auth::user();
           $token = $user->createToken('tokensesion')->plainTextToken;
-          $usuario = GeneradorContenido::where('CorreoElectronico', $credentials['CorreoElectronico'])->select('IdUsuario', 'Nombre', 'Apellido', 'CorreoElectronico')->first();
+          $usuario = GeneradorContenido::where('CorreoElectronico', $credentials['CorreoElectronico'])->select('IdUsuario', 'Nombre', 'Apellido', 'Nombre_perfil', 'CorreoElectronico','Descripcion', 'Celular', 'ResidenciaDepartamento')->first();
 
           return response()->json(['token' => $token, 'usuario' => $usuario], 200);
       }
